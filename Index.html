@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Notepad</title>
+    <style>
+        body { margin: 0; font-family: sans-serif; }
+        textarea {
+            width: 100vw;
+            height: 100vh;
+            padding: 20px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: #f4f4f9;
+        }
+    </style>
+</head>
+<body>
+
+<textarea id="note" placeholder="Start typing... Your notes are saved automatically to this browser."></textarea>
+
+<script>
+    const notepad = document.getElementById('note');
+
+    // Load saved content on startup
+    notepad.value = localStorage.getItem('offline-note') || '';
+
+    // Save content on every keystroke
+    notepad.addEventListener('input', () => {
+        localStorage.setItem('offline-note', notepad.value);
+    });
+
+    // Basic Service Worker Registration for Offline Use
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+</body>
+</html>
